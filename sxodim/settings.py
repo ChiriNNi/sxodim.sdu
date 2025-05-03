@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['sxodim-sdu.onrender.com', 'localhost',  '127.0.0.1', ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://sxodim-sdu.onrender.com',
+]
+
 
 # Application definition
 
@@ -76,23 +80,6 @@ WSGI_APPLICATION = 'sxodim.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-
-
-# DATABASES = {
-#     # 'default': {
-#     #     'ENGINE': 'django.db.backends.postgresql',
-#     #     'NAME': 'sxodim_sdu_db',  # Имя вашей базы данных
-#     #     'USER': 'postgres_sdu',  # Ваш пользователь базы данных
-#     #     'PASSWORD': '942SW1njDibasziRtbEA5UfhEPHS7nWP',  # Ваш пароль пользователя базы данных
-#     #     'HOST': 'dpg-d0b91g95pdvs73cfk5b0-a',
-#     #     'PORT': '5432',  # Стандартный порт PostgreSQL
-#     #     'OPTIONS': {
-#     #         'client_encoding': 'UTF8',  # Добавьте явное указание кодировки
-#     #     },
-#     # }
-#
-#
-# }
 
 DATABASES = {
     'default': dj_database_url.config(default='postgresql://postgres_sdu:942SW1njDibasziRtbEA5UfhEPHS7nWP@dpg-d0b91g95pdvs73cfk5b0-a.oregon-postgres.render.com/sxodim_sdu_db')
