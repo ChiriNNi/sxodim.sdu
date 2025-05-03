@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-us0i+o8#6i9=ed=c(fm*s6c!fa7$f539*by^9k7yv49y(d(dw0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://sxodim-sdu.onrender.com',]
+ALLOWED_HOSTS = ['sxodim-sdu.onrender.com', 'localhost',  '127.0.0.1', ]
 
 
 # Application definition
