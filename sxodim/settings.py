@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core',
     'rest_framework',
     'django_filters',
+    'psycopg2'
 ]
 
 MIDDLEWARE = [
@@ -68,17 +69,22 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = 'sxodim.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'sxodim_sdu_db',  # Имя вашей базы данных
+        'USER': 'postgres_sdu',  # Ваш пользователь базы данных
+        'PASSWORD': '942SW1njDibasziRtbEA5UfhEPHS7nWP',  # Ваш пароль пользователя базы данных
+        'HOST': 'dpg-d0b91g95pdvs73cfk5b0-a',
+        'PORT': '5432',  # Стандартный порт PostgreSQL
     }
 }
 
