@@ -8,7 +8,6 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(sdu_email)
         user = self.model(sdu_email=email, **extra_fields)
         user.set_password(password)  # Хешируем пароль
-        user.is_staff = False  # Устанавливаем для обычных пользователей is_staff в False
         user.is_superuser = False  # Устанавливаем для обычных пользователей is_superuser в False
         user.save(using=self._db)
         return user
