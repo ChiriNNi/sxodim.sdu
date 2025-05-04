@@ -7,6 +7,8 @@ class UserManager(BaseUserManager):
             raise ValueError("The Email must be set")
         email = self.normalize_email(sdu_email)
         user = self.model(sdu_email=email, **extra_fields)
+        user.is_staff = False  # Обычные пользователи не нужны в админке
+        user.is_superuser = False  # Обычные пользователи не суперпользователи
         user.set_password(password)  # Хеширование пароля
         user.save(using=self._db)
         return user
