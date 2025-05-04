@@ -7,15 +7,13 @@ class UserManager(BaseUserManager):
             raise ValueError("The Email must be set")
         email = self.normalize_email(sdu_email)
         user = self.model(sdu_email=email, **extra_fields)
-        user.is_staff = False  # Обычные пользователи не нужны в админке
-        user.is_superuser = False  # Обычные пользователи не суперпользователи
-        user.set_password(password)  # Хеширование пароля
+        user.set_password(password)  # Хешируем пароль
         user.save(using=self._db)
         return user
 
     def create_superuser(self, sdu_email, password=None, **extra_fields):
-        extra_fields.setdefault('is_admin', True)
-        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_staff', True)  # Для суперпользователя
+        extra_fields.setdefault('is_superuser', True)  # Для суперпользователя
         return self.create_user(sdu_email, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -36,7 +34,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True
     )
 
-    USERNAME_FIELD = 'sdu_email'  # Используем email как имя пользователя
+    USERNAME_FIELD = 'sdu_email'  # Для логина используется email
     EMAIL_FIELD = 'sdu_email'  # Для почты
     objects = UserManager()
 
@@ -46,6 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         return self.is_admin
+
 
 
 class Club(models.Model):
