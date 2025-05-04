@@ -51,6 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Club(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='club_images/', blank=True, null=True)
 
     def __str__(self):
         return self.name
