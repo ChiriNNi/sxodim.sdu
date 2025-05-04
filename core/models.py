@@ -1,5 +1,4 @@
-from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.db import models
 
 class UserManager(BaseUserManager):
@@ -8,7 +7,7 @@ class UserManager(BaseUserManager):
             raise ValueError("The Email must be set")
         email = self.normalize_email(sdu_email)
         user = self.model(sdu_email=email, **extra_fields)
-        user.set_password(password)
+        user.set_password(password)  # Хеширование пароля
         user.save(using=self._db)
         return user
 
@@ -35,8 +34,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True
     )
 
-    USERNAME_FIELD = 'sdu_email'
-
+    USERNAME_FIELD = 'sdu_email'  # Используем email как имя пользователя
+    EMAIL_FIELD = 'sdu_email'  # Для почты
     objects = UserManager()
 
     def __str__(self):
@@ -45,6 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         return self.is_admin
+
 
 class Club(models.Model):
     name = models.CharField(max_length=100)
