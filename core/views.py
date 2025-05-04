@@ -1,7 +1,12 @@
 from rest_framework import viewsets, filters
+from rest_framework.authtoken.models import Token
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import User, Club, Event, EventRegistration, Notification
 from .serializers import UserSerializer, ClubSerializer, EventSerializer, EventRegistrationSerializer, NotificationSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from .serializers import CustomAuthTokenSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -34,3 +39,14 @@ class NotificationViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
 
+class CustomObtainAuthToken(ObtainAuthToken):
+    serializer_class = CustomAuthTokenSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({'token': token.key})
+        else:
+            return Response(serializer.errors, status=400)

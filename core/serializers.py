@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth import authenticate
 from .models import User, Club, Event, EventRegistration, Notification
 
 class UserSerializer(serializers.ModelSerializer):
@@ -25,3 +26,19 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = ['id', 'user', 'message', 'created_at', 'is_read']
+
+
+class CustomAuthTokenSerializer(serializers.Serializer):
+    username = serializers.EmailField()  # Используем email как имя пользователя
+    password = serializers.CharField(style={'input_type': 'password'})
+
+    def validate(self, data):
+        email = data.get('username')
+        password = data.get('password')
+
+        user = authenticate(username=email, password=password)
+
+        if user is None:
+            raise serializers.ValidationError('Невозможно войти с предоставленными учетными данными.')
+
+        return {'user': user}
